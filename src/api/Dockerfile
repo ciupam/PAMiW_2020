@@ -4,14 +4,10 @@ RUN npm install -g nodemon
 
 WORKDIR /app 
 
-ENV PORT 8080
+COPY package.json .
 
-COPY package*.json ./
-
-RUN npm install
+RUN npm install --silent
 
 COPY . .
-
-EXPOSE ${PORT}
 
 CMD ["npm", "start"]
