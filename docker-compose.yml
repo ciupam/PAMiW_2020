@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+
+  client:
+    container_name: just_client
+    build: ./src/client
+    ports:
+      - '3001:3000'
+    volumes:
+      - ./src/client:/usr/src/app
+      - /usr/src/app/node_modules
+
+  backend:
+    container_name: just_backend
+    build: ./src/api
+    ports:
+      - '8000:8080'
+    volumes:
+      - ./src/api:/usr/src/app
+      - /usr/src/app/node_modules

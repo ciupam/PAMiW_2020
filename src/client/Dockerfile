@@ -1,12 +1,10 @@
 FROM node:lts-slim
 
-RUN npm install -g nodemon
-
 WORKDIR /usr/src/app
 
 ENV NPM_CONFIG_LOGLEVEL warn
 
-ENV PORT 8080
+ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package*.json ./
 
