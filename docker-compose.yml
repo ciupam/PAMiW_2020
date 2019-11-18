@@ -6,7 +6,7 @@ services:
     container_name: just_client
     build: ./src/client
     ports:
-      - '3001:3000
+      - '3001:3000'
 
   backend:
     container_name: just_backend
