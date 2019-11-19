@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "description": "Yet another web app.",
   "repository": "github:MateuszCiupa/ProgramowanieAplikacjiWebowych",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon --inspect=0.0.0.0 src/index.js",
-    "start:prod": "node src/index.js"
+    "start": "nodemon app.js",
+    "start:prod": "node app.js"
   },
   "author": "mateuszciupa1998@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "redis": "^2.8.0",
+    "mongoose": "^5.7.11",
+    "dotenv": "^8.2.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5"
   }
 }

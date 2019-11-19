@@ -8,7 +8,7 @@ ENV NPM_CONFIG_LOGLEVEL warn
 
 ENV PORT 8080
 
-COPY package*.json ./
+COPY package.json . 
 
 RUN npm install --no-optional --silent && npm cache clean --force
 
