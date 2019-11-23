@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link, withRouter } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -12,11 +12,34 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default props => { 
+export default withRouter(props => { 
     const classes = useStyles();
+
+    const handleMount = () => {
+        const path = props.location.pathname;
+        if (path === '/register') setRegister();
+        else if (path === '/login') setLogin();
+    };
+
+    useEffect(handleMount, []);
 
     const [loginActive, setLoginActive] = useState(false);
     const [registerActive, setRegisterActive] = useState(false);
+
+    const setRegister = () => {
+        setLoginActive(false);
+        setRegisterActive(true);
+    };
+
+    const setLogin = () => {
+        setLoginActive(true);
+        setRegisterActive(false);
+    };
+
+    const setHome = () => {
+        setLoginActive(false);
+        setRegisterActive(false);
+    };
 
     return (
         <AppBar position="static">
@@ -25,10 +48,7 @@ export default props => {
                 <Typography 
                     variant="h6" 
                     className={classes.title} 
-                    onClick={e => {
-                        setLoginActive(false);
-                        setRegisterActive(false);
-                    }}
+                    onClick={setHome}
                 >
                     <Link to='/'>Hello</Link>
                 </Typography>
@@ -38,10 +58,7 @@ export default props => {
                         className={classes.button} 
                         color="inherit" 
                         disabled={loginActive} 
-                        onClick={e => {
-                            setLoginActive(true);
-                            setRegisterActive(false);
-                        }}
+                        onClick={setLogin}
                     >
                         Login
                     </Button>
@@ -52,10 +69,7 @@ export default props => {
                         className={classes.button} 
                         variant="contained"
                         disabled={registerActive} 
-                        onClick={e => {
-                            setRegisterActive(true);
-                            setLoginActive(false);
-                        }}
+                        onClick={setRegister}
                     >
                         Register
                     </Button>
@@ -64,4 +78,4 @@ export default props => {
             </Toolbar>
         </AppBar>
     );
-}
+});

@@ -46,6 +46,33 @@ export default props => {
         }
     };
 
+    const handleSubmit = async event => {
+        event.preventDefault();
+
+        const options = {
+            url: 'http://192.168.0.10:8000/api/user/register',
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            data: {
+                firstname: firstName.value,
+                lastname: lastName.value,
+                login: login.value,
+                password: password.value
+            }
+        };
+
+        try {
+            const response = await axios(options);
+            console.log(response.data);
+        } catch(err) {
+            console.log(err.data);
+        }
+
+    };
+
     const handleReset = () => {
         setFirstName({
             value: "",
@@ -188,6 +215,7 @@ export default props => {
                     <Button
                         variant="contained"
                         color="primary"
+                        onClick={handleSubmit}
                     >
                         Submit
                     </Button>

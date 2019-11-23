@@ -1,7 +1,5 @@
 FROM node:lts-alpine
 
-RUN npm install -g nodemon
-
 WORKDIR /usr/src/app
 
 ENV NPM_CONFIG_LOGLEVEL warn
@@ -14,4 +12,4 @@ RUN npm install --no-optional --silent && npm cache clean --force
 
 COPY . .
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "devStart"]

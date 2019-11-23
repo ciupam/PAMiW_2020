@@ -16,6 +16,7 @@ services:
     build: ./src/api
     ports:
       - '8000:8080'
+      - '4000:4000'
     volumes:
       - /usr/src/app/node_modules
       - ./src/api:/usr/src/app
