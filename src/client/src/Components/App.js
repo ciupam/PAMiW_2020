@@ -1,14 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Header, Login, Register, Home } from './Layouts';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import { Login, Register, Home, Dashboard } from './Layouts';
+import { AuthRoute, ProtectedRoute } from '../util/route';
 
-export default props => (
-    <Router>
-        <Header />
-        <Switch>
-            <Route path='/login' component={Login} />
-            <Route path='/register' component={Register} />
-            <Route path='/' component={Home} />
-        </Switch>
-    </Router>
-);
+const App = () => {
+
+    return (
+        <Router>
+            <Switch>
+                <Route exact path='/' component={Home} />
+                <AuthRoute path='/login' component={Login} />
+                <AuthRoute path='/register' component={Register} />
+                <ProtectedRoute path='/dashboard' component={Dashboard} />
+            </Switch>
+        </Router>
+    );
+}
+
+export default App;

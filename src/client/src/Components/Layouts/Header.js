@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -12,34 +12,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default withRouter(props => { 
+export default props => { 
     const classes = useStyles();
-
-    const handleMount = () => {
-        const path = props.location.pathname;
-        if (path === '/register') setRegister();
-        else if (path === '/login') setLogin();
-    };
-
-    useEffect(handleMount, []);
-
-    const [loginActive, setLoginActive] = useState(false);
-    const [registerActive, setRegisterActive] = useState(false);
-
-    const setRegister = () => {
-        setLoginActive(false);
-        setRegisterActive(true);
-    };
-
-    const setLogin = () => {
-        setLoginActive(true);
-        setRegisterActive(false);
-    };
-
-    const setHome = () => {
-        setLoginActive(false);
-        setRegisterActive(false);
-    };
 
     return (
         <AppBar position="static">
@@ -47,18 +21,15 @@ export default withRouter(props => {
 
                 <Typography 
                     variant="h6" 
-                    className={classes.title} 
-                    onClick={setHome}
+                    className={classes.title}
                 >
-                    <Link to='/'>Hello</Link>
+                    Hello
                 </Typography>
 
                 <Link to='/login'>
                     <Button 
                         className={classes.button} 
-                        color="inherit" 
-                        disabled={loginActive} 
-                        onClick={setLogin}
+                        color="inherit"
                     >
                         Login
                     </Button>
@@ -68,8 +39,6 @@ export default withRouter(props => {
                     <Button
                         className={classes.button} 
                         variant="contained"
-                        disabled={registerActive} 
-                        onClick={setRegister}
                     >
                         Register
                     </Button>
@@ -78,4 +47,4 @@ export default withRouter(props => {
             </Toolbar>
         </AppBar>
     );
-});
+};

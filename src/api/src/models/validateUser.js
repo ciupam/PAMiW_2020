@@ -2,18 +2,21 @@ const Joi = require('@hapi/joi');
 
 const namePattern = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*$/;
 
-const loginSchemaObj = {
+const usernameSchemaObj = {
     login: Joi.string()
-        .pattern(/[\w]+$/)
+        .pattern(/[A-Za-z0-9]+$/)
         .min(2)
-        .max(100)
-        .required(),
-    password: Joi.string()
-        .pattern(/[\w]+$/)
-        .min(8)
         .max(100)
         .required()
 };
+
+const loginSchemaObj = Object.assign({
+    password: Joi.string()
+        .pattern(/[A-Za-z0-9]+$/)
+        .min(8)
+        .max(100)
+        .required()
+    }, usernameSchemaObj);
 
 const registerValidation = data => {
     const schema = Joi.object(Object.assign({
@@ -34,5 +37,8 @@ const registerValidation = data => {
 
 const loginValidation = data => Joi.object(loginSchemaObj).validate(data);
 
-module.exports.registerValidation = registerValidation;
+const usernameValidation = data => Joi.object(usernameSchemaObj).validate(data);
+
 module.exports.loginValidation = loginValidation;
+module.exports.usernameValidation = usernameValidation;
+module.exports.registerValidation = registerValidation;
