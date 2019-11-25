@@ -1,5 +1,5 @@
 export const register = user => (
-    fetch('api/user/register', {
+    fetch('/api/user/register', {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -9,7 +9,7 @@ export const register = user => (
 );
 
 export const login = user => (
-    fetch('api/user/login', {
+    fetch('/api/user/login', {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -19,11 +19,11 @@ export const login = user => (
 );
 
 export const logout = () => (
-    fetch('api/user/logout', { method: 'DELETE' })
+    fetch('/api/user/logout', { method: 'DELETE' })
 );
 
 export const checkLoggedIn = async preloadedState => {
-    const response = await fetch('/api/user');
+    const response = await fetch('api/user');
     const { user } = await response.json();
     preloadedState = {};
     if (user) {

@@ -1,7 +1,6 @@
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const connectStore = require('connect-mongo');
 const userAuth = require('./routes/auth');
 require('dotenv').config();
@@ -12,13 +11,14 @@ const MongoStore = connectStore(session);
 
 const {
     PORT = 8080,
-    SESS_SECRET,
-    SESS_NAME,
-    DB_CONNECTION
+    DB_CONNECTION,
+    SESS_SECRET="secret",
+    SESS_NAME="sid",
+    ACCESS_TOKEN_SECRET="access",
+    REFRESH_TOKEN_SECRET="refresh"
 } = process.env;
 
 app.disable('x-powered-by');
-app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

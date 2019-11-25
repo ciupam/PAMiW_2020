@@ -57,11 +57,7 @@ const Register = ({ errors, register }) => {
             try {
                 await axios(options);
             } catch(err) {
-                setLogin(prev => ({
-                    value: prev.value,
-                    isErr: true,
-                    helperText: err.response.data
-                }));
+                console.log(err);
             }
         }
     };
