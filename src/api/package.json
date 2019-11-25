@@ -6,7 +6,7 @@
   "main": "./src/authServer.js",
   "scripts": {
     "devStart": "nodemon src/authServer.js && nodemon src/appServer.js",
-    "start": "node authServer.js && node src/authServer.js"
+    "start": "node src/authServer.js && node src/authServer.js"
   },
   "author": "mateuszciupa1998@gmail.com",
   "license": "ISC",
