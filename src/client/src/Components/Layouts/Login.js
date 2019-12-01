@@ -3,7 +3,6 @@ import { Paper, Typography, Button, TextField } from '@material-ui/core';
 import useStyles from './Assets/useStyles';
 import { connect } from 'react-redux';
 import { login } from '../../actions/session';
-import Header from './Header';
 
 const mapStateToProps = ({ errors }) => ({
     errors
@@ -31,60 +30,56 @@ const Login = ({ errors, login }) => {
     };
 
     return (
-        <>
-            <Header />
+        <Paper className={classes.paper} square>
+            <Typography component="h1" variant="h5">
+                Sign In
+            </Typography>
 
-            <Paper className={classes.paper} square>
-                <Typography component="h1" variant="h5">
-                    Sign In
-                </Typography>
+            <p>{errors}</p>
 
-                <p>{errors}</p>
-
-                <form className={classes.form}>
-                    <TextField
-                            className={classes.text_field}
-                            required
-                            fullWidth
-                            label="Login"
-                            name="login"
-                            margin="normal"
-                            autoFocus
-                            value={loginValue}
-                            onChange={e => setLogin(e.target.value)}
-                        />
-
-                        <TextField
-                            className={classes.text_field}
-                            required
-                            fullWidth
-                            label="Password"
-                            name="password"
-                            margin="normal"
-                            type="password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
+            <form className={classes.form}>
+                <TextField
+                        className={classes.text_field}
+                        required
+                        fullWidth
+                        label="Login"
+                        name="login"
+                        margin="normal"
+                        autoFocus
+                        value={loginValue}
+                        onChange={e => setLogin(e.target.value)}
                     />
 
-                    <div className={classes.weird_buttons}>
-                            <Button
-                                onClick={handleReset}
-                            >
-                                Reset
-                            </Button>
+                    <TextField
+                        className={classes.text_field}
+                        required
+                        fullWidth
+                        label="Password"
+                        name="password"
+                        margin="normal"
+                        type="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                />
 
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleSubmit}
-                            >
-                                Login
-                            </Button>
-                    </div>
-                </form>
-                
-            </Paper>
-        </>
+                <div className={classes.weird_buttons}>
+                        <Button
+                            onClick={handleReset}
+                        >
+                            Reset
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleSubmit}
+                        >
+                            Login
+                        </Button>
+                </div>
+            </form>
+            
+        </Paper>
     );
 };
 

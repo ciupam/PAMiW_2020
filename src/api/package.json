@@ -1,12 +1,13 @@
 {
   "name": "rest-api-docker",
   "version": "1.0.0",
-  "description": "Yet another web app.",
+  "description": "Yet another rest app.",
   "repository": "github:MateuszCiupa/ProgramowanieAplikacjiWebowych",
-  "main": "./src/authServer.js",
+  "main": "./src/index.js",
+  "module": "./src/server",
   "scripts": {
-    "devStart": "nodemon src/authServer.js && nodemon src/appServer.js",
-    "start": "node src/authServer.js && node src/authServer.js"
+    "dev": "nodemon ./src/index.js",
+    "start": "node ./src/index.js"
   },
   "author": "mateuszciupa1998@gmail.com",
   "license": "ISC",
@@ -14,12 +15,13 @@
     "express": "^4.17.1",
     "mongoose": "^5.7.11",
     "dotenv": "^8.2.0",
-    "cors": "^2.8.5",
     "@hapi/joi": "16.1.7",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.5.1",
     "express-session": "^1.17.0",
-    "connect-mongo": "^3.1.2"
+    "connect-mongo": "^3.1.2",
+    "esm": "^3.2.25",
+    "swagger-ui-express": "^4.1.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.1"

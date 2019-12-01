@@ -9,7 +9,7 @@ const mapStateToProps = ({ session: { userId } }) => ({
 const Auth = ({ loggedIn, path, component: Component }) => (
     <Route 
         path={path}
-        render={props => (loggedIn ? <Redirect to='/dashboard' /> : <Component {...props} />)}
+        render={props => (loggedIn ? <Redirect to='/drawer' /> : <Component {...props} />)}
     />
 );
 

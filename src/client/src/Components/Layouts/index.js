@@ -1,10 +1,10 @@
-import Header from './Header';
+import MainHeader from './Header/MainHeader';
 import Login from './Login';
 import Register from './Register';
 import Home from './Home';
-import LoginHeader from './LoginHeader';
-import Dashboard from './Dashboard'
+import LoginHeader from './Header/LoginHeader';
+import Drawer from './Drawer';
 
 export {
-    Header, Login, Register, Home, LoginHeader, Dashboard
+    MainHeader, Login, Register, Home, LoginHeader, Drawer
 };

@@ -3,19 +3,54 @@ version: '3.7'
 services:
 
   client:
-    container_name: just_client
+    container_name: pamw_just_dev_client
+    image: pamw_client_dev_img
     build: ./src/client
     ports:
       - '3001:3000'
     volumes:
-      - /usr/src/app/node_modules
-      - ./src/client:/usr/src/app
+      - "/usr/src/app/node_modules"
+      - "./src/client:/usr/src/app"
+    depends_on:
+      - backend
+      - app
 
   backend:
-    container_name: just_backend
-    build: ./src/api
+    container_name: pamw_just_dev_backend
+    image: pamw_backend_dev_img
+    build: 
+      context: ./src/api
+      dockerfile: Dockerfile.dev
     ports:
       - '8000:8080'
     volumes:
-      - /usr/src/app/node_modules
-      - ./src/api:/usr/src/app
+      - "/usr/src/app/node_modules"
+      - "./src/api:/usr/src/app"
+
+  app:
+    container_name: pamw_just_dev_app
+    image: pamw_app_dev_img
+    build: 
+      context: ./src/app
+      dockerfile: Dockerfile.dev
+    ports:
+      - '4000:4000'
+    volumes:
+      - "/usr/src/app/node_modules"
+      - "./src/app:/usr/src/app"
+
+  mongo:
+    container_name: pamw_just_dev_mongo
+    image: 'mongo:bionic'
+    ports:
+      - '27017-27019:27017-27019'
+    volumes:
+      - "./src/mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
+      - "mongo_data:/data/db"
+    environment:
+      - MONGO_INITDB_DATABASE=mydb
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+
+volumes:
+  mongo_data:

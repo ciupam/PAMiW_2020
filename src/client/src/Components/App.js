@@ -1,20 +1,23 @@
 import React from 'react';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-import { Login, Register, Home, Dashboard } from './Layouts';
+import { Login, Register, Home, LoginHeader, MainHeader, Drawer } from './Layouts';
+import { connect } from 'react-redux';
 import { AuthRoute, ProtectedRoute } from '../util/route';
 
-const App = () => {
+const mapStateToProps = ({ session: { userId } }) => ({
+    loggedIn: Boolean(userId) 
+});
 
-    return (
-        <Router>
-            <Switch>
-                <Route exact path='/' component={Home} />
-                <AuthRoute path='/login' component={Login} />
-                <AuthRoute path='/register' component={Register} />
-                <ProtectedRoute path='/dashboard' component={Dashboard} />
-            </Switch>
-        </Router>
-    );
-}
+const App = ({ loggedIn }) => (
+    <Router>
+        { loggedIn ? <LoginHeader /> : <MainHeader />}
+        <Switch>
+            <Route exact path='/' component={Home} />
+            <AuthRoute path='/login' component={Login} />
+            <AuthRoute path='/register' component={Register} />
+            <ProtectedRoute path='/drawer' component={Drawer} />
+        </Switch>
+    </Router>
+);
 
-export default App;
+export default connect(mapStateToProps)(App);

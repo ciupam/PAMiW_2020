@@ -12,7 +12,7 @@ export default makeStyles(theme => ({
         width: '100%',
         marginTop: theme.spacing(2),
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     weird_buttons: {
         marginTop: theme.spacing(1),
@@ -26,5 +26,31 @@ export default makeStyles(theme => ({
         height: '68px',
         margin: '0',
         marginBottom: theme.spacing(1),
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        flexGrow: 1,
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+    addButton: {
+        alignSelf: 'flex-end'
+    },
+    input: {
+        display: 'none'
+    },
+    file_list: {
+        width: '100%',
+        marginTop: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    file_list_item: {
+        maxWidth: 700,
+        textAlign: 'center'
     }
 }));

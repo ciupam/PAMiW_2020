@@ -1,0 +1,167 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "PAMW Project",
+        "version": "1.0.0",
+        "description": "Register, login and serve PDF files.",
+        "contact": {
+            "name": "Mateusz Ciupa",
+            "url": "https://github.com/MateuszCiupa/ProgramowanieAplikacjiWebowych"
+        }
+    },
+    "servers": [
+        { 
+            "url": "http://localhost:8000",
+            "description": "Auth server"
+        },
+        {
+            "url": "http://localhost:4000",
+            "description": "App server"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Register": {
+                "type": "object",
+                "properties": {
+                    "firstname": {
+                        "type": "string",
+                        "required": true,
+                        "minLength": 2,
+                        "maxLength": 255
+                    },
+                    "lastname": {
+                        "type": "string",
+                        "required": true,
+                        "minLength": 2,
+                        "maxLength": 255
+                    },
+                    "login": {
+                        "type": "string",
+                        "required": true,
+                        "minLength": 2,
+                        "maxLength": 255
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true,
+                        "minLength": 8,
+                        "maxLength": 1024
+                    }
+                }
+            },
+            "Login" : {
+                "type": "object",
+                "properties": {
+                    "login": {
+                        "type": "string",
+                        "required": true,
+                        "minLength": 2,
+                        "maxLength": 255
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true,
+                        "minLength": 2,
+                        "maxLength": 255
+                    }
+                }
+            }
+        },
+        "examples": {
+            "register1": {
+                "value": {
+                    "firstname": "Mateusz",
+                    "lastname": "Ciupa",
+                    "login": "kanapkaaa",
+                    "password": "mateusz123"
+                }
+            },
+            "login1": {
+                "value": {
+                    "login": "kanapkaaa",
+                    "password": "mateusz123"
+                }
+            }
+        }
+    },
+    "paths": {
+        "/api/user/register": {
+            "post": {
+                "summary": "Register a user",
+                "tags": [
+                    "user actions"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Register"
+                            },
+                            "examples": {
+                                "register1": {
+                                    "$ref": "#/components/examples/register1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "summary": "Login a user",
+                "tags": [
+                    "session"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            },
+                            "examples": {
+                                "login1": {
+                                    "$ref": "#/components/examples/login1"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/user/{userLogin}": {
+            "get": {
+                "summary": "Check if a login name exists",
+                "tags": [
+                    "user actions"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/user/logout": {
+            "delete": {
+                "summary": "Logout a user",
+                "tags": [
+                    "session"
+                ]
+            }
+        }
+    }
+}

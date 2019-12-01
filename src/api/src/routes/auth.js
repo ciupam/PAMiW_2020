@@ -1,22 +1,27 @@
-const express = require('express');
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { registerValidation, loginValidation, usernameValidation } = require('../models/validateUser');
+import express from 'express';
+import User from '../models/User';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { registerValidation, loginValidation, usernameValidation } from '../models/validateUser';
 
-const userAuth = express.Router();
+const userRouter = express.Router();
 
 const parseError = err => JSON.stringify(err, Object.getOwnPropertyNames(err));
-
-userAuth.post('/register', async (req, res) => {
+ 
+userRouter.post('/register', async (req, res) => {
     const { error } = registerValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send(error.details[0]);
 
-    const user = { firstname, lastname, login } = req.body;
+    const { firstname, lastname, login } = req.body;
+    const user = { firstname, lastname, login };
 
-    const loginExists = await User.findOne({ login });
-    if (loginExists) return res.status(400).send('Login already exists.');
-
+    try {
+        const loginExists = await User.findOne({ login });
+        if (loginExists) return res.status(400).send(parseError(new Error('Login already exists.')));
+    } catch(err) {
+        return res.status(500).send(err);
+    }
+    
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     user.password = hashPassword;
 
@@ -28,7 +33,7 @@ userAuth.post('/register', async (req, res) => {
     }
 });
 
-userAuth.post('/login', async (req, res) => {
+userRouter.post('/login', async (req, res) => {
     const { error } = loginValidation(req.body);
     if (error) return res.status(400).send(error.details[0]);
 
@@ -49,8 +54,8 @@ userAuth.post('/login', async (req, res) => {
     req.session.user = sessionUser;
     res.send(sessionUser);
 });
-
-userAuth.get('/find/:userLogin', async (req, res) => {
+ 
+userRouter.get('/find/:userLogin', async (req, res) => {
     const { error } = usernameValidation({ login: req.params.userLogin });
     if (error) return res.status(400).send(error.details[0]);
 
@@ -63,7 +68,7 @@ userAuth.get('/find/:userLogin', async (req, res) => {
     }
 });
 
-userAuth.post('/token', (req, res) => {
+userRouter.post('/token', (req, res) => {
     const refreshToken = req.body.token;
     if (!refreshToken) return res.sendStatus(401);
 
@@ -73,8 +78,8 @@ userAuth.post('/token', (req, res) => {
         res.send({ accessToken });
     });
 });
-
-userAuth.delete('/logout', ({session}, res) => {
+ 
+userRouter.delete('/logout', ({ session }, res) => {
     try {
         const user = session.user;
         if (user) {
@@ -91,8 +96,8 @@ userAuth.delete('/logout', ({session}, res) => {
     }
 });
 
-userAuth.get('', ({ session: { user } }, res) => {
+userRouter.get('', ({ session: { user } }, res) => {
     res.send({ user });
 });
 
-module.exports = userAuth;
+export default userRouter;

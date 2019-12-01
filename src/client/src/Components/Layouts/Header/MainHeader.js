@@ -1,18 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import useStyles from '../Assets/useStyles';
 
-const useStyles = makeStyles(theme => ({
-    title: {
-        flexGrow: 1,
-    },
-    button: {
-        margin: theme.spacing(1),
-    },
-}));
-
-export default props => { 
+export default () => { 
     const classes = useStyles();
 
     return (
@@ -23,7 +14,7 @@ export default props => {
                     variant="h6" 
                     className={classes.title}
                 >
-                    Hello
+                    <Link to='/'>Home</Link>
                 </Typography>
 
                 <Link to='/login'>

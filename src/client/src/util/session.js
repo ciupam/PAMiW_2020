@@ -23,7 +23,7 @@ export const logout = () => (
 );
 
 export const checkLoggedIn = async preloadedState => {
-    const response = await fetch('api/user');
+    const response = await fetch('/api/user');
     const { user } = await response.json();
     preloadedState = {};
     if (user) {

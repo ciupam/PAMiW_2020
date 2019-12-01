@@ -1,0 +1,26 @@
+{
+    "name": "rest-api-docker",
+    "version": "1.0.0",
+    "description": "Yet another web app.",
+    "repository": "github:MateuszCiupa/ProgramowanieAplikacjiWebowych",
+    "main": "./src/index.js",
+    "module": "./src/server",
+    "scripts": {
+      "dev": "nodemon ./src/index.js",
+      "start": "node ./src/index.js"
+    },
+    "author": "mateuszciupa1998@gmail.com",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.17.1",
+      "dotenv": "^8.2.0",
+      "@hapi/joi": "16.1.7",
+      "bcryptjs": "^2.4.3",
+      "jsonwebtoken": "^8.5.1",
+      "esm": "^3.2.25",
+      "formidable": "^1.2.1"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.1"
+    }
+  }
