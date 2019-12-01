@@ -22,7 +22,7 @@ const LoginHeader = ({ logout, session }) => {
                     variant="h6" 
                     className={classes.title}
                 >
-                    Hi {session.firstname}
+                    Hi, {session.firstname}!
                 </Typography>
 
                 <Button

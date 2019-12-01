@@ -83,8 +83,8 @@ const Drawer = ({ session: { accessToken, userId } }) => {
 
     return (
         <Paper className={classes.paper} square>
-            <Typography variant="h2" align="center">
-                Not a home page.
+            <Typography variant="h4" align="center">
+                Place to store your pdfs
             </Typography>
 
             <List className={classes.file_list}>

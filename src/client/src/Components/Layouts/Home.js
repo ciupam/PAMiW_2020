@@ -8,7 +8,7 @@ export default props => {
     return (
         <Paper className={classes.paper} square>
             <Typography variant="h2" align="center">
-                Welcome to the home page.
+                Yet another home page
             </Typography>
         </Paper>
     );

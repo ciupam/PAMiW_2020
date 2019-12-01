@@ -12,11 +12,7 @@
     "servers": [
         { 
             "url": "http://localhost:8000",
-            "description": "Auth server"
-        },
-        {
-            "url": "http://localhost:4000",
-            "description": "App server"
+            "description": "Authentication server"
         }
     ],
     "components": {
@@ -109,7 +105,20 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "type": "string",
+                                            "description": "User Id"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -137,12 +146,40 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "OK"
+                        "description": "Successful operation",
+                        "headers": {
+                            "Set-Cookie": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "userId": {
+                                            "type": "string"
+                                        },
+                                        "firstname": {
+                                            "type": "string"
+                                        },
+                                        "accessToken": {
+                                            "type":"string"
+                                        },
+                                        "refreshToken": {
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
-        "/api/user/{userLogin}": {
+        "/api/user/find/{userLogin}": {
             "get": {
                 "summary": "Check if a login name exists",
                 "tags": [
@@ -150,7 +187,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Login does not exist"
+                    },
+                    "400": {
+                        "description": "Login exists"
                     }
                 }
             }
@@ -158,9 +198,40 @@
         "/api/user/logout": {
             "delete": {
                 "summary": "Logout a user",
+                "description": "Session cookie needed from login operation.",
                 "tags": [
                     "session"
                 ]
+            }
+        },
+        "/api/user": {
+            "get": {
+                "summary": "Get current session details",
+                "description": "Session cookie needed from login operation.",
+                "tags": [
+                    "session"
+                ],
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "userId": {
+                                    "type": "string"
+                                },
+                                "firstname": {
+                                    "type": "string"
+                                },
+                                "accessToken": {
+                                    "type":"string"
+                                },
+                                "refreshToken": {
+                                    "type":"string"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

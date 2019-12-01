@@ -26,6 +26,8 @@ services:
     volumes:
       - "/usr/src/app/node_modules"
       - "./src/api:/usr/src/app"
+    depends_on:
+      - mongo
 
   app:
     container_name: pamw_just_dev_app

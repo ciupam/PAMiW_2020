@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Paper, Typography, TextField, Button } from '@material-ui/core';
 import { validateName, validatePassword } from './Assets/validateInput';
 import useStyles from './Assets/useStyles';
@@ -16,6 +17,7 @@ const mapDispatchToProps = dispatch => ({
 const Register = ({ errors, register }) => {
     const classes = useStyles();
 
+    const [didRegister, setDidRegister] = useState(false);
     const [firstName, setFirstName] = useState({
         value: "",
         isErr: false,
@@ -37,7 +39,7 @@ const Register = ({ errors, register }) => {
         helperText: ""
     });
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault();
         const user = {
             firstname: firstName.value,
@@ -45,7 +47,8 @@ const Register = ({ errors, register }) => {
             login: login.value,
             password: password.value
         };
-        register(user);
+        await register(user);
+        if (!Boolean(errors)) setDidRegister(true);
     };
 
     const handleReset = () => {
@@ -72,141 +75,144 @@ const Register = ({ errors, register }) => {
     };
 
     return (
-        <Paper className={classes.paper} square>
-            <Typography component="h1" variant="h5">
-                Sign Up
-            </Typography>
+        <>
+            {didRegister ? <Redirect to='/login' /> : null}
+            <Paper className={classes.paper} square>
+                <Typography component="h1" variant="h5">
+                    Sign Up
+                </Typography>
 
-            <p>{errors}</p>
+                <p>{errors}</p>
 
-            <form className={classes.form}>
-                <TextField
-                    className={classes.text_field}
-                    required
-                    fullWidth
-                    label="First name"
-                    name="firstname"
-                    margin="normal"
-                    autoFocus
-                    value={firstName.value}
-                    onChange={e => setFirstName({
-                        value: e.target.value,
-                        isErr: e.target.error,
-                        helperText: e.target.helperText
-                    })}
-                    error={firstName.isErr}
-                    helperText={firstName.helperText}
-                    onBlur={e => {
-                        const result = validateName(e.target.value);
-                        if (result) setFirstName({
+                <form className={classes.form}>
+                    <TextField
+                        className={classes.text_field}
+                        required
+                        fullWidth
+                        label="First name"
+                        name="firstname"
+                        margin="normal"
+                        autoFocus
+                        value={firstName.value}
+                        onChange={e => setFirstName({
                             value: e.target.value,
-                            isErr: true,
-                            helperText: result
-                        });
-                        else setFirstName({
+                            isErr: e.target.error,
+                            helperText: e.target.helperText
+                        })}
+                        error={firstName.isErr}
+                        helperText={firstName.helperText}
+                        onBlur={e => {
+                            const result = validateName(e.target.value);
+                            if (result) setFirstName({
+                                value: e.target.value,
+                                isErr: true,
+                                helperText: result
+                            });
+                            else setFirstName({
+                                value: e.target.value,
+                                isErr: false,
+                                helperText: ""
+                            });
+                        }}
+                    />
+
+                    <TextField
+                        className={classes.text_field}
+                        required
+                        fullWidth
+                        label="Last name"
+                        name="lastname"
+                        margin="normal"
+                        value={lastName.value}
+                        onChange={e => setLastName({
                             value: e.target.value,
-                            isErr: false,
-                            helperText: ""
-                        });
-                    }}
-                />
+                            isErr: e.target.error,
+                            helperText: e.target.helperText
+                        })}
+                        error={lastName.isErr}
+                        helperText={lastName.helperText}
+                        onBlur={e => {
+                            const result = validateName(e.target.value);
+                            if (result) setLastName({
+                                value: e.target.value,
+                                isErr: true,
+                                helperText: result
+                            });
+                            else setLastName({
+                                value: e.target.value,
+                                isErr: false,
+                                helperText: ""
+                            });
+                        }}
+                    />
 
-                <TextField
-                    className={classes.text_field}
-                    required
-                    fullWidth
-                    label="Last name"
-                    name="lastname"
-                    margin="normal"
-                    value={lastName.value}
-                    onChange={e => setLastName({
-                        value: e.target.value,
-                        isErr: e.target.error,
-                        helperText: e.target.helperText
-                    })}
-                    error={lastName.isErr}
-                    helperText={lastName.helperText}
-                    onBlur={e => {
-                        const result = validateName(e.target.value);
-                        if (result) setLastName({
+                    <TextField
+                        className={classes.text_field}
+                        required
+                        fullWidth
+                        label="Login"
+                        name="login"
+                        margin="normal"
+                        value={login.value}
+                        onChange={e => setLogin({
                             value: e.target.value,
-                            isErr: true,
-                            helperText: result
-                        });
-                        else setLastName({
+                            isErr: e.target.error,
+                            helperText: e.target.helperText
+                        })}
+                        error={login.isErr}
+                        helperText={login.helperText}
+                    />
+
+                    <TextField
+                        className={classes.text_field}
+                        required
+                        fullWidth
+                        label="Password"
+                        name="password"
+                        margin="normal"
+                        type="password"
+                        value={password.value}
+                        onChange={e => setPassword({
                             value: e.target.value,
-                            isErr: false,
-                            helperText: ""
-                        });
-                    }}
-                />
+                            isErr: e.target.error,
+                            helperText: e.target.helperText
+                        })}
+                        error={password.isErr}
+                        helperText={password.helperText}
+                        onBlur={e => {
+                            const result = validatePassword(e.target.value);
+                            if (result) setPassword({
+                                value: e.target.value,
+                                isErr: true,
+                                helperText: result
+                            }); 
+                            else setPassword({
+                                value: e.target.value,
+                                isErr: false,
+                                helperText: ""
+                            });
+                        }}
+                    />
 
-                <TextField
-                    className={classes.text_field}
-                    required
-                    fullWidth
-                    label="Login"
-                    name="login"
-                    margin="normal"
-                    value={login.value}
-                    onChange={e => setLogin({
-                        value: e.target.value,
-                        isErr: e.target.error,
-                        helperText: e.target.helperText
-                    })}
-                    error={login.isErr}
-                    helperText={login.helperText}
-                />
+                    <div className={classes.weird_buttons}>
+                        <Button
+                            onClick={handleReset}
+                        >
+                            Reset
+                        </Button>
 
-                <TextField
-                    className={classes.text_field}
-                    required
-                    fullWidth
-                    label="Password"
-                    name="password"
-                    margin="normal"
-                    type="password"
-                    value={password.value}
-                    onChange={e => setPassword({
-                        value: e.target.value,
-                        isErr: e.target.error,
-                        helperText: e.target.helperText
-                    })}
-                    error={password.isErr}
-                    helperText={password.helperText}
-                    onBlur={e => {
-                        const result = validatePassword(e.target.value);
-                        if (result) setPassword({
-                            value: e.target.value,
-                            isErr: true,
-                            helperText: result
-                        }); 
-                        else setPassword({
-                            value: e.target.value,
-                            isErr: false,
-                            helperText: ""
-                        });
-                    }}
-                />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleSubmit}
+                        >
+                            Submit
+                        </Button>
+                    </div>
 
-                <div className={classes.weird_buttons}>
-                    <Button
-                        onClick={handleReset}
-                    >
-                        Reset
-                    </Button>
-
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSubmit}
-                    >
-                        Submit
-                    </Button>
-                </div>
-
-            </form>
-        </Paper>
+                </form>
+            </Paper>
+        </>
     );
 };
 
