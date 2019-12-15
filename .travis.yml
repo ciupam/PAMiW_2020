@@ -1,0 +1,9 @@
+dist: bionic
+language: node_js
+node_js: node
+before_script:
+    - cd src/client
+    - npm install
+cache:
+    directories:
+        - node_modules
