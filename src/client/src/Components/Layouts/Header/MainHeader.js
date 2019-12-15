@@ -7,7 +7,7 @@ export default () => {
     const classes = useStyles();
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" data-test='AppBar'>
             <Toolbar>
 
                 <Typography 

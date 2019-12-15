@@ -1,17 +1,16 @@
 sudo: false
 
-language: node_js
-
-node_js: 
-    - node
-
-install:
-    - cd src/client
-    - npm i
-
-script:
-    - npm run lint
-    - npm test
+matrix:
+    include:
+      - language: node_js
+        node_js: 
+            - node
+        install:
+            - cd src/client
+            - npm i
+        script:
+            - npm run lint
+            - npm test
 
 notifications:
     email: false
