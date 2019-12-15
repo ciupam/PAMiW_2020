@@ -1,9 +1,17 @@
-dist: bionic
+sudo: false
+
 language: node_js
-node_js: node
-before_script:
+
+node_js: 
+    - node
+
+install:
     - cd src/client
     - npm install
-cache:
-    directories:
-        - node_modules
+
+script:
+    - npm run lint
+    - npm test:coverage
+
+notifications:
+    email: false
