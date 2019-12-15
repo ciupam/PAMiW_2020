@@ -23,9 +23,8 @@
   "scripts": {
     "start": "react-scripts --max_old_space_size=4096 start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll",
     "eject": "react-scripts eject",
-    "test:coverage": "react-scripts test --coverage",
     "lint": "eslint src"
   },
   "eslintConfig": {
