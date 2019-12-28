@@ -4,23 +4,23 @@ export default StyleSheet.create({
     container: {
       flex: 1,
       flexDirection: 'column',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     inputContainer: {
-      margin: 15
+      width: '90%',
+      height: 90
     },
     buttonContainer: {
-      alignItems: 'center'
-    },
-    formContainer: {
-      flex: 1,
-      justifyContent: 'center'
-    },
-    alignContainer: {
-      alignItems: 'center'
+      width: '30%'
     },
     leftIconContainer: {
       marginRight: 10,
       marginLeft: 5
+    },
+    absoluteButtonContainer: {
+      position: 'absolute',
+      bottom: 10,
+      right: 10
     }
   })

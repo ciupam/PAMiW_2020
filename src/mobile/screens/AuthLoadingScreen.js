@@ -9,8 +9,8 @@ import {
 
 export default ({ navigation: { navigate } }) => {
     const _bootstrapAsync = async () => {
-        const authToken = await AsyncStorage.getItem('authToken')
-        navigate(authToken ? 'App' : 'Auth')
+        const accessToken = await AsyncStorage.getItem('accessToken')
+        navigate(accessToken ? 'App' : 'Auth')
     }
 
     useEffect(() => {

@@ -1,18 +1,19 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { Button } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/AntDesign'
+import { View } from 'react-native'
+import { Text, Icon } from 'react-native-elements'
 import styles from '../assets/styles'
 
 const Home = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
-        <Text>Home Screen</Text>
+        <View style={styles.alignContainer}>
+            <Text h3>Home Screen</Text>
+        </View>
     </View>
 )
 
 Home.navigationOptions = ({ navigation }) => ({
     tabBarIcon: () => (
-        <Icon name="home" size={20} />
+        <Icon type="antdesign" name="home" size={20} />
     )
 })
 
