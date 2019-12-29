@@ -1,11 +1,13 @@
-version: '3.7'
+version: '3'
 
 services:
 
   client:
     container_name: pamw_just_dev_client
     image: pamw_client_dev_img
-    build: ./src/client
+    build: 
+      context: ./src/client
+      dockerfile: Dockerfile.dev
     ports:
       - '3001:3000'
     volumes:

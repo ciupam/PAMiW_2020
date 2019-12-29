@@ -1,11 +1,13 @@
-version: '3.7'
+version: '3'
 
 services:
 
   client:
     container_name: pamw_just_heroku_client
     image: registry.heroku.com/pamw-client/web
-    build: ./src/client
+    build: 
+      context: ./src/client
+      dockerfile: Dockerfile.prod
     volumes:
       - /usr/src/app/node_modules
 

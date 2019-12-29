@@ -1,4 +1,5 @@
 import React from 'react'
+import { StatusBar } from 'react-native'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { HomeScreen, LoginScreen, ProfileScreen, AuthLoadingScreen, FilesScreen } from './screens'
 import { ThemeProvider } from 'react-native-elements'
@@ -23,6 +24,7 @@ const AppContainer = createAppContainer(RootStack)
 
 export default () => (
   <ThemeProvider theme={theme}>
+    <StatusBar hidden />
     <AppContainer />
   </ThemeProvider>
 )
