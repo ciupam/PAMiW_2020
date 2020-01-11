@@ -5,6 +5,8 @@ import { HomeScreen, LoginScreen, ProfileScreen, AuthLoadingScreen, FilesScreen 
 import { ThemeProvider } from 'react-native-elements'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createStackNavigator } from 'react-navigation-stack'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 const AppBottomTab = createBottomTabNavigator({ Home: HomeScreen, Files: FilesScreen, Profile: ProfileScreen })
 const AuthStack = createStackNavigator({ Login: LoginScreen }, { headerMode: 'none' })
@@ -23,10 +25,12 @@ const RootStack = createSwitchNavigator(
 const AppContainer = createAppContainer(RootStack)
 
 export default () => (
-  <ThemeProvider theme={theme}>
-    <StatusBar hidden />
-    <AppContainer />
-  </ThemeProvider>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <StatusBar hidden />
+      <AppContainer />
+    </ThemeProvider>
+  </Provider>
 )
 
 const theme = {

@@ -1,35 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { View, AsyncStorage, ActivityIndicator } from 'react-native'
 import { Button, Input, Text } from 'react-native-elements'
 import { Formik } from 'formik'
 import styles from '../assets/styles'
+import { connect } from 'react-redux'
+import { login } from '../redux/actions/session'
 
-export default ({ navigation: { navigate } }) => {
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
+const mapStateToProps = ({ buttonLoading, errors, session: { userId } }) => ({
+    buttonLoading,
+    errors,
+    loggedIn: Boolean(userId)
+})
 
-    const _signInAsync = async values => {
-        setLoading(true)
-        const response = await fetch('https://pamw-backend.herokuapp.com/api/user/login', {
-                method: 'POST',
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values)
-        })
-        const data = await response.json()
-        
-        if (response.ok) {
-            await AsyncStorage.setItem('accessToken', data.accessToken)
-            await AsyncStorage.setItem('firstname', data.firstname)
-            await AsyncStorage.setItem('userId', data.userId)
-            navigate('App')
-        } else {
-            setLoading(false)
-            setError(data.message)
-        }
+const mapDispatchToProps = dispatch => ({
+    login: user => dispatch(login(user))
+})
+
+const SignInScreen = ({ navigation: { navigate }, login, buttonLoading, errors, loggedIn }) => {
+    const _signInAsync = values => {
+        login(values)
     }
+
+    useEffect(() => {
+        if (loggedIn) navigate('App')
+    }, [loggedIn])
 
     return (
         <Formik
@@ -51,10 +45,10 @@ export default ({ navigation: { navigate } }) => {
                             onChangeText={handleChange('login')}
                             onBlur={handleBlur('login')}
                             value={values.login}
-                            leftIcon={{ type: 'antdesign', name: error ? 'frowno' : 'smileo' }}
+                            leftIcon={{ type: 'antdesign', name: errors ? 'frowno' : 'smileo' }}
                             leftIconContainerStyle={styles.leftIconContainer}
                             label="Your login"
-                            errorMessage={error}
+                            errorMessage={errors}
                         />
                     </View>
 
@@ -74,7 +68,7 @@ export default ({ navigation: { navigate } }) => {
                     <View style={styles.buttonContainer}>
                         <Button
                             title="Submit" 
-                            loading={loading}
+                            loading={buttonLoading}
                             onPress={handleSubmit} 
                         />
                     </View>
@@ -83,3 +77,8 @@ export default ({ navigation: { navigate } }) => {
         </Formik>
     )
 }
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignInScreen)

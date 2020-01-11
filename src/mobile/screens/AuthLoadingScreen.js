@@ -6,11 +6,15 @@ import {
     StatusBar,
     View
 } from 'react-native'
+import { connect } from 'react-redux'
 
-export default ({ navigation: { navigate } }) => {
+const mapStateToProps = ({ session: { userId }}) => ({
+    loggedIn: Boolean(userId)
+})
+
+const AuthLoadingScreen = ({ navigation: { navigate }, loggedIn }) => {
     const _bootstrapAsync = async () => {
-        const accessToken = await AsyncStorage.getItem('accessToken')
-        navigate(accessToken ? 'App' : 'Auth')
+        navigate(loggedIn ? 'App' : 'Auth')
     }
 
     useEffect(() => {
@@ -24,3 +28,7 @@ export default ({ navigation: { navigate } }) => {
         </View>
     )
 }
+
+export default connect(
+    mapStateToProps
+)(AuthLoadingScreen)
