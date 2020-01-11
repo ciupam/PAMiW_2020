@@ -29,7 +29,10 @@ export const registerValidation = data => {
             .pattern(namePattern)
             .min(2)
             .max(255)
-            .required()   
+            .required(),
+        email: Joi.string()
+            .max(1014)
+            .required()
     }, loginSchemaObj));
 
     return schema.validate(data);

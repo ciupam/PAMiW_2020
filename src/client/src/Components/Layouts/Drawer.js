@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Paper, Typography, Fab, List, ListItem, ListItemText } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
-import { connect } from 'react-redux';
-import useStyles from './Assets/useStyles';
-import download from 'downloadjs';
+import React, { useState, useEffect } from 'react'
+import { Paper, Typography, Fab, List, ListItem, ListItemText } from '@material-ui/core'
+import { Add } from '@material-ui/icons'
+import { connect } from 'react-redux'
+import useStyles from './Assets/useStyles'
+import download from 'downloadjs'
 
-const mapStateToProps = ({ session }) => ({
-    session
-});
+const mapStateToProps = ({ session }) => ({ session })
 
 const FileItem = ({ handleDownload, fileUrl, fileName }) => (
     <ListItem 
@@ -17,13 +15,12 @@ const FileItem = ({ handleDownload, fileUrl, fileName }) => (
     >
         <ListItemText primary={fileName} />
     </ListItem>
-);
+)
 
 const Drawer = ({ session: { accessToken, userId } }) => {
-    const classes = useStyles();
-
-    const [files, setFiles] = useState([]);
-    const [uploading, setUploading] = useState(false);
+    const classes = useStyles()
+    const [files, setFiles] = useState([])
+    const [uploading, setUploading] = useState(false)
 
     useEffect(() => {
         (async () => {
@@ -34,21 +31,21 @@ const Drawer = ({ session: { accessToken, userId } }) => {
                         'Authorization': `Bearer ${accessToken}`,
                         'Accept': 'application/json'
                     }
-                });
-                const data = await response.json();
-                console.log(data);
-                setFiles(data);
+                })
+                const data = await response.json()
+                console.log(data)
+                setFiles(data)
             } catch(err) {
-                console.log(err);
+                console.log(err)
             }
-        })();
-    }, [userId, accessToken]);
+        })()
+    }, [userId, accessToken])
 
     const handleUpload = async e => {
-        setUploading(true);
+        setUploading(true)
 
-        const formData = new FormData();
-        formData.append('file', e.target.files[0]);
+        const formData = new FormData()
+        formData.append('file', e.target.files[0])
 
         try {
             const response = await fetch(`/app/user/${userId}`, {
@@ -58,17 +55,15 @@ const Drawer = ({ session: { accessToken, userId } }) => {
                     'Accept': 'application/json'
                 },
                 body: formData
-            });
-            const data = await response.json();
-            console.log(data);
-            if (files.filter(file => file.name === data.name).length === 0) setFiles(prev => prev.concat(data));
+            })
+            const data = await response.json()
+            if (files.filter(file => file.name === data.name).length === 0) setFiles(prev => prev.concat(data))
         } catch(err) {
-            console.log(err);
-
+            console.log(err)
         }
 
-        setUploading(false);
-    };
+        setUploading(false)
+    }
 
     const handleDownload = async (url, name) => {
         const res = await fetch(url, {
@@ -77,9 +72,9 @@ const Drawer = ({ session: { accessToken, userId } }) => {
                 'Authorization': `Bearer ${accessToken}`
             }
         });
-        const blob = await res.blob();
-        download(blob, name);
-    };
+        const blob = await res.blob()
+        download(blob, name)
+    }
 
     return (
         <Paper className={classes.paper} square>
@@ -107,7 +102,7 @@ const Drawer = ({ session: { accessToken, userId } }) => {
                 </Fab>
             </label>
         </Paper>
-    );
-};
+    )
+}
 
-export default connect(mapStateToProps)(Drawer);
+export default connect(mapStateToProps)(Drawer)

@@ -1,33 +1,36 @@
-import React, { useState } from 'react';
-import { Paper, Typography, Button, TextField } from '@material-ui/core';
-import useStyles from './Assets/useStyles';
-import { connect } from 'react-redux';
-import { login } from '../../actions/session';
+import React, { useState, useEffect } from 'react'
+import { Paper, Typography, Button, TextField } from '@material-ui/core'
+import useStyles from './Assets/useStyles'
+import { connect } from 'react-redux'
+import { login } from '../../actions/session'
+import { clearErrors } from '../../actions/error'
+import { Link } from 'react-router-dom'
 
-const mapStateToProps = ({ errors }) => ({
-    errors
-});
+const mapStateToProps = ({ errors }) => ({ errors })
 
-const mapDispatchToProps = dispatch => ({
-    login: user => dispatch(login(user))
-});
+const mapDispatchToProps = dispatch => ({ 
+    login: user => dispatch(login(user)),
+    clearErrors: () => dispatch(clearErrors())
+})
 
-const Login = ({ errors, login }) => {
-    const classes = useStyles();
-
-    const [loginValue, setLogin] = useState("");
-    const [password, setPassword] = useState("");
+const Login = ({ errors, login, clearErrors }) => {
+    useEffect(() => {
+        clearErrors()
+    }, [clearErrors])
+    const classes = useStyles()
+    const [loginValue, setLogin] = useState('')
+    const [password, setPassword] = useState('')
 
     const handleReset = () => {
-        setLogin("");
-        setPassword("");
-    };
+        setLogin('')
+        setPassword('')
+    }
 
     const handleSubmit = event => {
-        event.preventDefault();
-        const user = { login: loginValue, password };
-        login(user);
-    };
+        event.preventDefault()
+        const user = { login: loginValue, password }
+        login(user)
+    }
 
     return (
         <Paper className={classes.paper} square>
@@ -35,9 +38,7 @@ const Login = ({ errors, login }) => {
                 Sign In
             </Typography>
 
-            <p>{errors}</p>
-
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={handleSubmit} >
                 <TextField
                         className={classes.text_field}
                         required
@@ -46,21 +47,26 @@ const Login = ({ errors, login }) => {
                         name="login"
                         margin="normal"
                         autoFocus
-                        value={loginValue}
                         onChange={e => setLogin(e.target.value)}
-                    />
-
-                    <TextField
-                        className={classes.text_field}
-                        required
-                        fullWidth
-                        label="Password"
-                        name="password"
-                        margin="normal"
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
                 />
+
+                <TextField
+                    className={classes.text_field}
+                    required
+                    fullWidth
+                    label="Password"
+                    name="password"
+                    margin="normal"
+                    type="password"
+                    onChange={e => setPassword(e.target.value)}
+                    helperText={errors}
+                />
+
+                <Link to='/reset/password'>
+                    <Typography color="primary" variant="subtitle2">
+                        Forgot password?
+                    </Typography>
+                </Link>
 
                 <div className={classes.weird_buttons}>
                         <Button
@@ -72,7 +78,7 @@ const Login = ({ errors, login }) => {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={handleSubmit}
+                            type="submit"
                         >
                             Login
                         </Button>
@@ -80,10 +86,7 @@ const Login = ({ errors, login }) => {
             </form>
             
         </Paper>
-    );
-};
+    )
+}
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

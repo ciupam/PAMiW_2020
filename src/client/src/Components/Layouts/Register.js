@@ -1,88 +1,90 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { Paper, Typography, TextField, Button } from '@material-ui/core';
-import { validateName, validatePassword } from './Assets/validateInput';
-import useStyles from './Assets/useStyles';
-import { connect } from 'react-redux';
-import { register } from '../../actions/session';
+import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
+import { Paper, Typography, TextField, Button } from '@material-ui/core'
+import { validateName, validatePassword } from './Assets/validateInput'
+import useStyles from './Assets/useStyles'
+import { connect } from 'react-redux'
+import { register } from '../../actions/session'
+import { clearErrors } from '../../actions/error'
 
-const mapStateToProps = ({ errors }) => ({
-    errors
-});
+const mapStateToProps = ({ errors }) => ({ errors })
 
-const mapDispatchToProps = dispatch => ({
-    register: user => dispatch(register(user))
-});
+const mapDispatchToProps = dispatch => ({ 
+    register: user => dispatch(register(user)),
+    clearErrors: () => dispatch(clearErrors())
+})
 
-const Register = ({ errors, register }) => {
-    const classes = useStyles();
-
-    const [didRegister, setDidRegister] = useState(false);
+const Register = ({ errors, register, clearErrors }) => {
+    useEffect(() => {
+        clearErrors()
+    }, [clearErrors])
+    const classes = useStyles()
+    const [didRegister, setDidRegister] = useState(false)
     const [firstName, setFirstName] = useState({
-        value: "",
+        value: '',
         isErr: false,
-        helperText: ""
-    });
+        helperText: ''
+    })
     const [lastName, setLastName] = useState({
-        value: "",
+        value: '',
         isErr: false,
-        helperText: ""
-    });
+        helperText: ''
+    })
     const [login, setLogin] = useState({
-        value: "",
+        value: '',
         isErr: false,
-        helperText: ""
-    });
+        helperText: ''
+    })
     const [password, setPassword] = useState({
-        value: "",
+        value: '',
         isErr: false,
-        helperText: ""
-    });
+        helperText: ''
+    })
+    const [email, setEmail] = useState('')
 
     const handleSubmit = async event => {
-        event.preventDefault();
+        event.preventDefault()
         const user = {
             firstname: firstName.value,
             lastname: lastName.value,
             login: login.value,
-            password: password.value
-        };
-        await register(user);
-        if (!Boolean(errors)) setDidRegister(true);
-    };
+            password: password.value,
+            email
+        }
+        await register(user)
+        if (!errors) setDidRegister(true)
+    }
 
     const handleReset = () => {
         setFirstName({
-            value: "",
+            value: '',
             isErr: false,
-            helperText: ""
-        });
+            helperText: ''
+        })
         setLastName({
-            value: "",
+            value: '',
             isErr: false,
-            helperText: ""
-        });
+            helperText: ''
+        })
         setLogin({
-            value: "",
+            value: '',
             isErr: false,
-            helperText: ""
-        });
+            helperText: ''
+        })
         setPassword({
-            value: "",
+            value: '',
             isErr: false,
-            helperText: ""
-        });
-    };
+            helperText: ''
+        })
+    }
 
     return (
         <>
-            {didRegister ? <Redirect to='/login' /> : null}
+            {didRegister ? <Redirect to="/login" /> : null}
             <Paper className={classes.paper} square>
                 <Typography component="h1" variant="h5">
                     Sign Up
                 </Typography>
-
-                <p>{errors}</p>
 
                 <form className={classes.form}>
                     <TextField
@@ -93,7 +95,6 @@ const Register = ({ errors, register }) => {
                         name="firstname"
                         margin="normal"
                         autoFocus
-                        value={firstName.value}
                         onChange={e => setFirstName({
                             value: e.target.value,
                             isErr: e.target.error,
@@ -107,12 +108,12 @@ const Register = ({ errors, register }) => {
                                 value: e.target.value,
                                 isErr: true,
                                 helperText: result
-                            });
+                            })
                             else setFirstName({
                                 value: e.target.value,
                                 isErr: false,
                                 helperText: ""
-                            });
+                            })
                         }}
                     />
 
@@ -123,7 +124,6 @@ const Register = ({ errors, register }) => {
                         label="Last name"
                         name="lastname"
                         margin="normal"
-                        value={lastName.value}
                         onChange={e => setLastName({
                             value: e.target.value,
                             isErr: e.target.error,
@@ -153,7 +153,6 @@ const Register = ({ errors, register }) => {
                         label="Login"
                         name="login"
                         margin="normal"
-                        value={login.value}
                         onChange={e => setLogin({
                             value: e.target.value,
                             isErr: e.target.error,
@@ -171,7 +170,6 @@ const Register = ({ errors, register }) => {
                         name="password"
                         margin="normal"
                         type="password"
-                        value={password.value}
                         onChange={e => setPassword({
                             value: e.target.value,
                             isErr: e.target.error,
@@ -185,13 +183,25 @@ const Register = ({ errors, register }) => {
                                 value: e.target.value,
                                 isErr: true,
                                 helperText: result
-                            }); 
+                            })
                             else setPassword({
                                 value: e.target.value,
                                 isErr: false,
                                 helperText: ""
-                            });
+                            })
                         }}
+                    />
+
+                    <TextField 
+                        className={classes.text_field}
+                        required
+                        fullWidth
+                        label="Email"
+                        name="email"
+                        margin="normal"
+                        type="email"
+                        helperText={errors}
+                        onChange={e => setEmail(e.target.value)}
                     />
 
                     <div className={classes.weird_buttons}>
@@ -213,10 +223,7 @@ const Register = ({ errors, register }) => {
                 </form>
             </Paper>
         </>
-    );
-};
+    )
+}
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

@@ -1,20 +1,16 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
-import { connect } from 'react-redux';
-import { logout } from '../../../actions/session';
-import useStyles from '../Assets/useStyles';
+import React from 'react'
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
+import { connect } from 'react-redux'
+import useStyles from '../Assets/useStyles'
+import { Link } from 'react-router-dom'
+import { logout } from '../../../actions/session'
 
-const mapStateToProps = ({ session }) => ({
-    session
-});
+const mapStateToProps = ({ session }) => ({ session })
 
-const mapDispatchToProps = dispatch => ({
-    logout: () => dispatch(logout())
-});
+const mapDispatchToProps = dispatch => ({ logout: () => dispatch(logout()) })
 
-const LoginHeader = ({ logout, session }) => { 
-    const classes = useStyles();
-
+const LoginHeader = ({ session, logout }) => {
+    const classes = useStyles()
     return (
         <AppBar position="static">
             <Toolbar>
@@ -25,20 +21,26 @@ const LoginHeader = ({ logout, session }) => {
                     Hi, {session.firstname}!
                 </Typography>
 
-                <Button
-                    className={classes.button} 
+                <Link to='/profile'>
+                    <Button
+                        className={classes.button} 
+                        color="inherit"
+                    >
+                        Profile
+                    </Button>
+                </Link>
+
+                <Button 
+                    className={classes.button}
                     variant="contained"
                     onClick={logout}
                 >
-                    Logout
+                    Sign Out
                 </Button>
 
             </Toolbar>
         </AppBar>
-    );
-};
+    )
+}
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LoginHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginHeader)

@@ -12,7 +12,8 @@ export default makeStyles(theme => ({
         width: '100%',
         marginTop: theme.spacing(2),
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'center'
     },
     weird_buttons: {
         marginTop: theme.spacing(1),
@@ -24,7 +25,6 @@ export default makeStyles(theme => ({
     },
     text_field: {
         height: '68px',
-        margin: '0',
         marginBottom: theme.spacing(1),
     },
     menuButton: {
@@ -53,4 +53,4 @@ export default makeStyles(theme => ({
         maxWidth: 700,
         textAlign: 'center'
     }
-}));
+}))

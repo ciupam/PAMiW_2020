@@ -12,12 +12,14 @@ userRouter.post('/register', async (req, res) => {
     const { error } = registerValidation(req.body);
     if (error) return res.status(400).send(error.details[0]);
 
-    const { firstname, lastname, login } = req.body;
-    const user = { firstname, lastname, login };
+    const { firstname, lastname, login, email } = req.body;
+    const user = { firstname, lastname, login, email };
 
     try {
         const loginExists = await User.findOne({ login });
-        if (loginExists) return res.status(400).send(parseError(new Error('Login already exists.')));
+        const emailExists = await User.findOne({ email });
+        if (loginExists) return res.status(400).send(parseError(new Error('"login" already exists')));
+        if (emailExists) return res.status(400).send(parseError(new Error('"email" already exists')));
     } catch(err) {
         return res.status(500).send(err);
     }
@@ -41,9 +43,9 @@ userRouter.post('/login', async (req, res) => {
     
     try {
         var user = await User.findOne({ login });
-        if (!user) return res.status(401).send(parseError(new Error('Login or password is incorrect')));
+        if (!user) return res.status(401).send(parseError(new Error('"login" or "password" is incorrect')));
         const validPass = await bcrypt.compare(password, user.password);
-        if(!validPass) return res.status(401).send(parseError(new Error('Login or password is incorrect')));
+        if(!validPass) return res.status(401).send(parseError(new Error('"login" or "password" is incorrect')));
     } catch(err) {
         return res.status(500).send(err);
     }
@@ -61,7 +63,7 @@ userRouter.get('/find/:userLogin', async (req, res) => {
 
     try {
         const loginExists = await User.findOne({ login: req.params.userLogin });
-        if (loginExists) res.status(400).send(parseError(new Error('Login already exists')));
+        if (loginExists) res.status(400).send(parseError(new Error('"login" already exists')));
         else res.sendStatus(200);
     } catch(err) {
         res.status(500).send(err);
@@ -70,7 +72,8 @@ userRouter.get('/find/:userLogin', async (req, res) => {
 
 userRouter.post('/token', (req, res) => {
     const refreshToken = req.body.token;
-    if (!refreshToken) return res.sendStatus(401);
+    const user = req.session.user;
+    if (!refreshToken || !user) return res.sendStatus(401);
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(403);
