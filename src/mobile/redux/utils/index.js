@@ -1,2 +1,3 @@
-export const appUrl = 'http://192.168.0.10:4000'
-export const apiUrl = 'http://192.168.0.10:8000'
+const url = 'http://192.168.43.247'
+export const appUrl = `${url}:4000`
+export const apiUrl = `${url}:8000`

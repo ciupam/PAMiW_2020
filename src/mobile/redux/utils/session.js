@@ -2,7 +2,7 @@ import { appUrl, apiUrl } from './index'
 
 export const isTokenExpired = async accessToken => {
     try {
-        const response = await fetch(`${appUrl}/app/user/token`, {
+        const response = await fetch(`${appUrl}/app/token`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'Accept': 'application/json'

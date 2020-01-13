@@ -50,9 +50,15 @@ userRouter.post('/login', async (req, res) => {
         return res.status(500).send(err);
     }
 
-    const accessToken = jwt.sign({ _id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
+    const accessToken = jwt.sign({ _id: user._id }, process.env.ACCESS_TOKEN_SECRET/*, { expiresIn: '100m' }*/);
     const refreshToken = jwt.sign({ _id: user._id }, process.env.REFRESH_TOKEN_SECRET);
-    const sessionUser = { userId: user._id, firstname: user.firstname, accessToken, refreshToken };
+    const sessionUser = { 
+        userId: user._id, 
+        firstname: user.firstname, 
+        lastname: user.lastname,
+        accessToken, 
+        refreshToken 
+    };
     req.session.user = sessionUser;
     res.send(sessionUser);
 });

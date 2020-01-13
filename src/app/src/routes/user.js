@@ -2,8 +2,6 @@ import express from 'express';
 import verifyToken from './utils/verifyToken';
 import { IncomingForm } from 'formidable';
 import fs from 'fs';
-import Post from '../models/Post';
-import validatePost from '../models/validatePost';
 
 const userRouter = express.Router();
 
@@ -44,36 +42,6 @@ userRouter.get('/:userId/:fileName', verifyToken, (req, res) => { // get a speci
     const filePath = `${__dirname}/uploads/${req.user._id}/${req.params.fileName}`;
     if (!fs.existsSync(filePath)) return res.status(400).send('No file or user in a storage.');
     res.download(filePath);
-});
-
-userRouter.get('/token', verifyToken, (req, res) => {
-    res.status(200).send('OK');
-});
-
-userRouter.post('/post', verifyToken, async (req, res) => {
-    const { error } = validatePost(req.body);
-    if (error) return res.status(400).send(error.details[0]);
-
-    const { files, _public, firstname, lastname } = req.body;
-    const post = { files, _public, firstname, lastname, userId: req.user._id };
-
-    try {
-        const savedPost = await new Post(post).save();
-        res.status(201).send({ post: savedPost._id });
-    } catch(err) {
-        res.status(500).send(err);
-    }
-});
-
-userRouter.get('/post', verifyToken, async (req, res) => {
-    const userId = req.user._id;
-
-    try {
-        const userPosts = await Post.find({ userId });
-        return res.status(200).send(userPosts);
-    } catch(err) {
-        return res.status(500).send(err);
-    }
 });
 
 export default userRouter;

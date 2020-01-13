@@ -39,6 +39,11 @@ export default StyleSheet.create({
       bottom: 10,
       right: 10
     },
+    absoluteLeftTop: {
+      position: 'absolute',
+      top: 10,
+      left: 10
+    },
     fileItem: {
       width: '100%'
     }

@@ -1,6 +1,7 @@
 import express from 'express';
-import userRouter from './routes/user';
+import { userRouter, postRouter } from './routes';
 import mongoose from 'mongoose';
+import verifyToken from './routes/utils/verifyToken';
 require('dotenv').config();
 
 const {
@@ -21,7 +22,11 @@ const {
 
         const app = express();
         app.use(express.json());
+        app.get('/app/token', verifyToken, (req, res) => {
+            res.status(200).send('OK');
+        });
         app.use('/app/user', userRouter);
+        app.use('/app/post', postRouter);
         app.listen(PORT, () => console.log(`App server is running on port ${PORT}`));
     } catch (err) {
         console.log(err);

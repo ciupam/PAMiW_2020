@@ -12,6 +12,10 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    title: {
+        type: String,
+        required: true
+    },
     firstname: {
         type: String,
         required: true
